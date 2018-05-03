@@ -12,10 +12,10 @@
     <!-- VS's FastUpToDateCheck doesn't consider .ts file changes, so it's necessary to disable it to get incremental builds to work correctly (albeit not as fast as if FastUpToDateCheck did work for them) -->
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
 
-    <PackageVersion>0.2.1-preview4</PackageVersion>
+    <PackageVersion>0.2.1</PackageVersion>
     <!-- <Version>0.2.1</Version> -->
     <VersionPrefix>0.2.1</VersionPrefix>
-    <VersionSuffix>preview4</VersionSuffix>
+    <VersionSuffix></VersionSuffix>
 	<Authors>Florian Dohrendorf</Authors>
 	<PackageTags>blazor;local;storage;localstorage;session;sessionstorage;browser</PackageTags>
 	<Title>Blazor local and session storage support</Title>
