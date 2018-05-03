@@ -1,4 +1,6 @@
-﻿declare var Blazor: any;
+﻿// Copyright (c) 2018 cloudcrate solutions UG (haftungsbeschraenkt)
+
+declare var Blazor: any;
 var registerFunction: (identifier: string, implementation: Function) => void = Blazor.registerFunction;
 
 const storageAssembly = 'Cloudcrate.AspNetCore.Blazor.Browser';

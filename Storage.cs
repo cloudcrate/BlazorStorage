@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Blazor.Browser.Interop;
+﻿// Copyright (c) 2018 cloudcrate solutions UG (haftungsbeschraenkt)
+
+using Microsoft.AspNetCore.Blazor.Browser.Interop;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
