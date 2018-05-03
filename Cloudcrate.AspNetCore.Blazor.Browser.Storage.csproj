@@ -12,10 +12,10 @@
     <!-- VS's FastUpToDateCheck doesn't consider .ts file changes, so it's necessary to disable it to get incremental builds to work correctly (albeit not as fast as if FastUpToDateCheck did work for them) -->
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
 
-    <PackageVersion>0.2.1-preview1</PackageVersion>
+    <PackageVersion>0.2.1-preview3</PackageVersion>
     <!-- <Version>0.2.1</Version> -->
     <VersionPrefix>0.2.1</VersionPrefix>
-    <VersionSuffix>preview1</VersionSuffix>
+    <VersionSuffix>preview3</VersionSuffix>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,6 +33,10 @@
 
   <ItemGroup>
     <WebpackInputs Include="**\*.ts" Exclude="node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="tsconfig.json;package.json;package-lock.json" />
   </ItemGroup>
 
   <Target Name="EnsureNpmRestored" Condition="!Exists('node_modules')">
