@@ -1,7 +1,7 @@
 ﻿declare var Blazor: any;
 var registerFunction: (identifier: string, implementation: Function) => void = Blazor.registerFunction;
 
-const storageAssembly = 'Microsoft.AspNetCore.Blazor.Browser';
+const storageAssembly = 'Cloudcrate.AspNetCore.Blazor.Browser';
 const storageNamespace = `${storageAssembly}.Storage`;
 
 const storages: { [key: string]: Storage } = {
