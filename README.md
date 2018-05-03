@@ -4,7 +4,7 @@
 ## Installation
 
 ```powershell
-PM> Install-Package Cloudcrate.AspNetCore.Blazor.Browser.Storage -Prerelease
+PM> Install-Package Cloudcrate.AspNetCore.Blazor.Browser.Storage
 ```
 
 ## Usage
