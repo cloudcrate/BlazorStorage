@@ -13,10 +13,9 @@ PM> Install-Package Cloudcrate.AspNetCore.Blazor.Browser.Storage
 
 ```csharp
 var serviceProvider = new BrowserServiceProvider(services =>
-            {
-                // Add any custom services here
-                services.AddStorage();
-            });
+{
+    services.AddStorage();
+});
 ```
 
 ### Inject and use Storage
