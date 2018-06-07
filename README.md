@@ -6,6 +6,9 @@
 ```powershell
 PM> Install-Package Cloudcrate.AspNetCore.Blazor.Browser.Storage
 ```
+## See it in Action
+
+Check out [Steve Sanderson's demo at NDC Minnesota, at minute 48](https://youtu.be/JU-6pAxqAa4?t=2875)
 
 ## Usage
 
