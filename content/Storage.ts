@@ -15,45 +15,49 @@ for (var storageTypeName in storages) {
     const storage = storages[storageTypeName];
     const storageFullTypeName = `${storageNamespace}.${storageTypeName}`;
 
-    registerFunction(`${storageFullTypeName}.Clear`, () => {
-        clear(storage);
-    });
+    window[storageFullTypeName] = {
 
-    registerFunction(`${storageFullTypeName}.GetItem`, (key: string) => {
-        return getItem(storage, key);
-    });
+        Clear: () => {
+            clear(storage);
+        },
 
-    registerFunction(`${storageFullTypeName}.Key`, (index: number) => {
-        return key(storage, index);
-    });
+        GetItem: (key: string) => {
+            return getItem(storage, key);
+        },
 
-    registerFunction(`${storageFullTypeName}.Length`, () => {
-        return getLength(storage);
-    });
+        Key: (index: number) => {
+            return key(storage, index);
+        },
 
-    registerFunction(`${storageFullTypeName}.RemoveItem`, (key: string) => {
-        removeItem(storage, key);
-    });
+        Length: () => {
+            return getLength(storage);
+        },
 
-    registerFunction(`${storageFullTypeName}.SetItem`, (key: string, data: any) => {
-        setItem(storage, key, data);
-    });
+        RemoveItem: (key: string) => {
+            removeItem(storage, key);
+        },
 
-    registerFunction(`${storageFullTypeName}.GetItemString`, (key: string) => {
-        return getItemString(storage, key);
-    });
+        SetItem: (key: string, data: any) => {
+            setItem(storage, key, data);
+        },
 
-    registerFunction(`${storageFullTypeName}.SetItemString`, (key: string, data: string) => {
-        setItemString(storage, key, data);
-    });
+        GetItemString: (key: string) => {
+            return getItemString(storage, key);
+        },
 
-    registerFunction(`${storageFullTypeName}.GetItemNumber`, (index: number) => {
-        return getItemNumber(storage, index);
-    });
+        SetItemString: (key: string, data: string) => {
+            setItemString(storage, key, data);
+        },
 
-    registerFunction(`${storageFullTypeName}.SetItemNumber`, (index: number, data: string) => {
-        setItemNumber(storage, index, data);
-    });
+        GetItemNumber: (index: number) => {
+            return getItemNumber(storage, index);
+        },
+
+        SetItemNumber: (index: number, data: string) => {
+            setItemNumber(storage, index, data);
+        }
+
+    };
 }
 
 function clear(storage: Storage) {

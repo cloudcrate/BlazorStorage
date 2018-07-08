@@ -5,22 +5,21 @@
     <OutputType>library</OutputType>
     <IsPackable>true</IsPackable>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
-    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <RestoreAdditionalProjectSources>
+      https://dotnet.myget.org/f/blazor-dev/api/v3/index.json;
+    </RestoreAdditionalProjectSources>
+    <LangVersion>7.3</LangVersion>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
-    <DefaultItemExcludes>${DefaultItemExcludes};node_modules\**</DefaultItemExcludes>
 
-    <!-- VS's FastUpToDateCheck doesn't consider .ts file changes, so it's necessary to disable it to get incremental builds to work correctly (albeit not as fast as if FastUpToDateCheck did work for them) -->
-    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
-
-    <PackageVersion>0.2.2</PackageVersion>
+    <PackageVersion>0.5.0-preview1</PackageVersion>
     <!-- <Version>0.2.2</Version> -->
-    <VersionPrefix>0.2.2</VersionPrefix>
-    <VersionSuffix></VersionSuffix>
-	<Authors>Florian Dohrendorf</Authors>
-	<PackageTags>blazor;local;storage;localstorage;session;sessionstorage;browser</PackageTags>
-	<Title>Blazor local and session storage support</Title>
-	<Description>Blazor local and session storage support</Description>
-	<PackageProjectUrl>https://github.com/cloudcrate/BlazorStorage</PackageProjectUrl>
+    <VersionPrefix>0.5.0</VersionPrefix>
+    <VersionSuffix>preview1</VersionSuffix>
+    <Authors>Florian Dohrendorf</Authors>
+    <PackageTags>blazor;local;storage;localstorage;session;sessionstorage;browser</PackageTags>
+    <Title>Blazor local and session storage support</Title>
+    <Description>Blazor local and session storage support</Description>
+    <PackageProjectUrl>https://github.com/cloudcrate/BlazorStorage</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,28 +30,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.0-preview2-final" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.2.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.2.1" />
+    <EmbeddedResource Remove="content\Storage.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <WebpackInputs Include="**\*.ts" Exclude="node_modules\**" />
+    <None Remove="content\Storage.ts" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <Content Remove="tsconfig.json;package.json;package-lock.json" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.5.0-preview1-t000" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.5.0-preview1-t000" />
+    <PackageReference Include="Microsoft.JSInterop" Version="0.5.0-preview1-t000" />
   </ItemGroup>
 
-  <Target Name="EnsureNpmRestored" Condition="!Exists('node_modules')">
-    <!-- <Exec Command="$(BlazorBuildToolsExe) checknodejs -v 8.3.0" />
-    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." /> -->
-    <Exec Command="npm install" />
-  </Target>
-
-  <Target Name="RunWebpack" AfterTargets="ResolveReferences" Inputs="@(WebpackInputs)" Outputs="content\storage.js" DependsOnTargets="EnsureNpmRestored">
-    <RemoveDir Directories="content" />
-    <Exec Command="npm run build" />
-  </Target>
+  <ItemGroup>
+    <TypeScriptCompile Include="content\Storage.ts" />
+  </ItemGroup>
 
 </Project>

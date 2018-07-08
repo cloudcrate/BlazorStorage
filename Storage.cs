@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.JSInterop;
 
 namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 {
@@ -20,12 +21,12 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 
         public void Clear()
         {
-            RegisteredFunction.Invoke<object>($"{_fullTypeName}.Clear");
+                ((IJSInProcessRuntime)JSRuntime.Current).Invoke<object>($"{_fullTypeName}.Clear");
         }
 
         public string GetItem(string key)
         {
-            return RegisteredFunction.Invoke<string>($"{_fullTypeName}.GetItem", key);
+            return ((IJSInProcessRuntime)JSRuntime.Current).Invoke<string>($"{_fullTypeName}.GetItem", key);
         }
 
         public T GetItem<T>(string key)
@@ -36,25 +37,25 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 
         public string Key(int index)
         {
-            return RegisteredFunction.Invoke<string>($"{_fullTypeName}.Key", index);
+            return ((IJSInProcessRuntime)JSRuntime.Current).Invoke<string>($"{_fullTypeName}.Key", index);
         }
 
         public int Length
         {
             get
             {
-                return RegisteredFunction.Invoke<int>($"{_fullTypeName}.Length");
+                return ((IJSInProcessRuntime)JSRuntime.Current).Invoke<int>($"{_fullTypeName}.Length");
             }
         }
 
         public void RemoveItem(string key)
         {
-            RegisteredFunction.Invoke<object>($"{_fullTypeName}.RemoveItem", key);
+            ((IJSInProcessRuntime)JSRuntime.Current).Invoke<object>($"{_fullTypeName}.RemoveItem", key);
         }
 
         public void SetItem(string key, string data)
         {
-            RegisteredFunction.Invoke<object>($"{_fullTypeName}.SetItem", key, data);
+            ((IJSInProcessRuntime)JSRuntime.Current).Invoke<object>($"{_fullTypeName}.SetItem", key, data);
         }
 
         public void SetItem(string key, object data)
@@ -66,11 +67,11 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
         {
             get
             {
-                return RegisteredFunction.Invoke<string>($"{_fullTypeName}.GetItemString", key);
+                return ((IJSInProcessRuntime)JSRuntime.Current).Invoke<string>($"{_fullTypeName}.GetItemString", key);
             }
             set
             {
-                RegisteredFunction.Invoke<object>($"{_fullTypeName}.SetItemString", key, value);
+                ((IJSInProcessRuntime)JSRuntime.Current).Invoke<object>($"{_fullTypeName}.SetItemString", key, value);
             }
         }
 
@@ -78,11 +79,11 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
         {
             get
             {
-                return RegisteredFunction.Invoke<string>($"{_fullTypeName}.GetItemNumber", index);
+                return ((IJSInProcessRuntime)JSRuntime.Current).Invoke<string>($"{_fullTypeName}.GetItemNumber", index);
             }
             set
             {
-                RegisteredFunction.Invoke<object>($"{_fullTypeName}.SetItemNumber", index, value);
+                ((IJSInProcessRuntime)JSRuntime.Current).Invoke<object>($"{_fullTypeName}.SetItemNumber", index, value);
             }
         }
     }
