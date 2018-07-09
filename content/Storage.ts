@@ -1,10 +1,7 @@
 ﻿// Copyright (c) 2018 cloudcrate solutions UG (haftungsbeschraenkt)
 
-declare var Blazor: any;
-var registerFunction: (identifier: string, implementation: Function) => void = Blazor.registerFunction;
-
-const storageAssembly = 'Cloudcrate.AspNetCore.Blazor.Browser';
-const storageNamespace = `${storageAssembly}.Storage`;
+const storageAssembly = 'Cloudcrate_AspNetCore_Blazor_Browser';
+const storageNamespace = `${storageAssembly}_Storage`;
 
 const storages: { [key: string]: Storage } = {
     LocalStorage: localStorage,
@@ -12,52 +9,53 @@ const storages: { [key: string]: Storage } = {
 };
 
 for (var storageTypeName in storages) {
-    const storage = storages[storageTypeName];
-    const storageFullTypeName = `${storageNamespace}.${storageTypeName}`;
+    if (storages.hasOwnProperty(storageTypeName)) {
+        const storage = storages[storageTypeName];
+        const storageFullTypeName = `${storageNamespace}_${storageTypeName}`;
 
-    window[storageFullTypeName] = {
+        window[storageFullTypeName] = {
+            Clear: () => {
+                clear(storage);
+            },
 
-        Clear: () => {
-            clear(storage);
-        },
+            GetItem: (key: string) => {
+                return getItem(storage, key);
+            },
 
-        GetItem: (key: string) => {
-            return getItem(storage, key);
-        },
+            Key: (index: number) => {
+                return key(storage, index);
+            },
 
-        Key: (index: number) => {
-            return key(storage, index);
-        },
+            Length: () => {
+                return getLength(storage);
+            },
 
-        Length: () => {
-            return getLength(storage);
-        },
+            RemoveItem: (key: string) => {
+                removeItem(storage, key);
+            },
 
-        RemoveItem: (key: string) => {
-            removeItem(storage, key);
-        },
+            SetItem: (key: string, data: any) => {
+                setItem(storage, key, data);
+            },
 
-        SetItem: (key: string, data: any) => {
-            setItem(storage, key, data);
-        },
+            GetItemString: (key: string) => {
+                return getItemString(storage, key);
+            },
 
-        GetItemString: (key: string) => {
-            return getItemString(storage, key);
-        },
+            SetItemString: (key: string, data: string) => {
+                setItemString(storage, key, data);
+            },
 
-        SetItemString: (key: string, data: string) => {
-            setItemString(storage, key, data);
-        },
+            GetItemNumber: (index: number) => {
+                return getItemNumber(storage, index);
+            },
 
-        GetItemNumber: (index: number) => {
-            return getItemNumber(storage, index);
-        },
+            SetItemNumber: (index: number, data: string) => {
+                setItemNumber(storage, index, data);
+            }
 
-        SetItemNumber: (index: number, data: string) => {
-            setItemNumber(storage, index, data);
-        }
-
-    };
+        };
+    }
 }
 
 function clear(storage: Storage) {
@@ -81,7 +79,7 @@ function removeItem(storage: Storage, key: string) {
 }
 
 function setItem(storage: Storage, key: string, data: any) {
-    storage.setItem(key, data)
+    storage.setItem(key, data);
 }
 
 function getItemString(storage: Storage, key: string) {
@@ -93,7 +91,7 @@ function setItemString(storage: Storage, key: string, data: any) {
 }
 
 function getItemNumber(storage: Storage, index: number) {
-    return storage[index]
+    return storage[index];
 }
 
 function setItemNumber(storage: Storage, index: number, data: string) {

@@ -1,27 +1,22 @@
 ﻿// Copyright (c) 2018 cloudcrate solutions UG (haftungsbeschraenkt)
 
-using Microsoft.AspNetCore.Blazor;
-using Microsoft.AspNetCore.Blazor.Browser.Interop;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.JSInterop;
 
 namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 {
     public abstract class StorageBase
     {
-        private string _fullTypeName;
+        private readonly string _fullTypeName;
 
         protected internal StorageBase()
         {
-            _fullTypeName = GetType().FullName;
+            _fullTypeName = GetType().FullName.Replace('.', '_');
         }
 
         public void Clear()
         {
-                ((IJSInProcessRuntime)JSRuntime.Current).Invoke<object>($"{_fullTypeName}.Clear");
+            ((IJSInProcessRuntime)JSRuntime.Current).Invoke<object>($"{_fullTypeName}.Clear");
         }
 
         public string GetItem(string key)
@@ -32,7 +27,7 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
         public T GetItem<T>(string key)
         {
             var json = GetItem(key);
-            return string.IsNullOrEmpty(json) ? default(T) : JsonUtil.Deserialize<T>(json);
+            return string.IsNullOrEmpty(json) ? default(T) : Json.Deserialize<T>(json);
         }
 
         public string Key(int index)
@@ -40,13 +35,7 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
             return ((IJSInProcessRuntime)JSRuntime.Current).Invoke<string>($"{_fullTypeName}.Key", index);
         }
 
-        public int Length
-        {
-            get
-            {
-                return ((IJSInProcessRuntime)JSRuntime.Current).Invoke<int>($"{_fullTypeName}.Length");
-            }
-        }
+        public int Length => ((IJSInProcessRuntime)JSRuntime.Current).Invoke<int>($"{_fullTypeName}.Length");
 
         public void RemoveItem(string key)
         {
@@ -60,31 +49,19 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 
         public void SetItem(string key, object data)
         {
-            SetItem(key, JsonUtil.Serialize(data));
+            SetItem(key, Json.Serialize(data));
         }
 
         public string this[string key]
         {
-            get
-            {
-                return ((IJSInProcessRuntime)JSRuntime.Current).Invoke<string>($"{_fullTypeName}.GetItemString", key);
-            }
-            set
-            {
-                ((IJSInProcessRuntime)JSRuntime.Current).Invoke<object>($"{_fullTypeName}.SetItemString", key, value);
-            }
+            get => ((IJSInProcessRuntime)JSRuntime.Current).Invoke<string>($"{_fullTypeName}.GetItemString", key);
+            set => ((IJSInProcessRuntime)JSRuntime.Current).Invoke<object>($"{_fullTypeName}.SetItemString", key, value);
         }
 
         public string this[int index]
         {
-            get
-            {
-                return ((IJSInProcessRuntime)JSRuntime.Current).Invoke<string>($"{_fullTypeName}.GetItemNumber", index);
-            }
-            set
-            {
-                ((IJSInProcessRuntime)JSRuntime.Current).Invoke<object>($"{_fullTypeName}.SetItemNumber", index, value);
-            }
+            get => ((IJSInProcessRuntime)JSRuntime.Current).Invoke<string>($"{_fullTypeName}.GetItemNumber", index);
+            set => ((IJSInProcessRuntime)JSRuntime.Current).Invoke<object>($"{_fullTypeName}.SetItemNumber", index, value);
         }
     }
 
