@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2018 cloudcrate solutions UG (haftungsbeschraenkt)
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.JSInterop;
 
 namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
@@ -79,8 +80,8 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
     {
         public static void AddStorage(this IServiceCollection col)
         {
-            col.AddSingleton<LocalStorage>();
-            col.AddSingleton<SessionStorage>();
+            col.TryAdd(ServiceDescriptor.Singleton<LocalStorage, LocalStorage>());
+            col.TryAdd(ServiceDescriptor.Singleton<SessionStorage, SessionStorage>());
         }
     }
 }
