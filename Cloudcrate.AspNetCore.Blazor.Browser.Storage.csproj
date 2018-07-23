@@ -11,10 +11,10 @@
     <LangVersion>7.3</LangVersion>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
 
-    <PackageVersion>0.5.0-preview2</PackageVersion>
+    <PackageVersion>0.5.0-preview3</PackageVersion>
     <!-- <Version>0.2.2</Version> -->
     <VersionPrefix>0.5.0</VersionPrefix>
-    <VersionSuffix>preview2</VersionSuffix>
+    <VersionSuffix>preview3</VersionSuffix>
     <Authors>Florian Dohrendorf</Authors>
     <PackageTags>blazor;local;storage;localstorage;session;sessionstorage;browser</PackageTags>
     <Title>Blazor local and session storage support</Title>
