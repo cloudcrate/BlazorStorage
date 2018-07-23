@@ -80,8 +80,8 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
     {
         public static void AddStorage(this IServiceCollection col)
         {
-            col.TryAdd(ServiceDescriptor.Singleton<LocalStorage, LocalStorage>());
-            col.TryAdd(ServiceDescriptor.Singleton<SessionStorage, SessionStorage>());
+            col.TryAddSingleton<LocalStorage>();
+            col.TryAddSingleton<SessionStorage>();
         }
     }
 }
