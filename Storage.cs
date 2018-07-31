@@ -12,7 +12,7 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 
         protected internal StorageBase()
         {
-            _fullTypeName = GetType().FullName.Replace('.', '_');
+            _fullTypeName = $"window.{GetType().FullName.Replace('.', '_')}";
         }
 
         public void Clear()
