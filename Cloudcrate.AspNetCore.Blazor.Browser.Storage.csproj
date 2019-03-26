@@ -6,14 +6,15 @@
     <IsPackable>true</IsPackable>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
     <RestoreAdditionalProjectSources>
-      https://dotnet.myget.org/f/blazor-dev/api/v3/index.json;
+      https://dotnet.myget.org/F/aspnetcore-dev/api/v3/index.json;
+      https://dotnet.myget.org/F/blazor-dev/api/v3/index.json;
     </RestoreAdditionalProjectSources>
     <LangVersion>7.3</LangVersion>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
 
-    <PackageVersion>0.5.0-preview3</PackageVersion>
+    <PackageVersion>0.9.0-preview3</PackageVersion>
     <!-- <Version>0.2.2</Version> -->
-    <VersionPrefix>0.5.0</VersionPrefix>
+    <VersionPrefix>0.9.0</VersionPrefix>
     <VersionSuffix>preview3</VersionSuffix>
     <Authors>Florian Dohrendorf</Authors>
     <PackageTags>blazor;local;storage;localstorage;session;sessionstorage;browser</PackageTags>
@@ -38,9 +39,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.5.0-preview1-10351" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.5.0-preview1-10351" />
-    <PackageReference Include="Microsoft.JSInterop" Version="0.5.0-preview1-10351" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="0.9.0-preview3-19154-02" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.9.0-preview3-19154-02" />
   </ItemGroup>
 
   <ItemGroup>
