@@ -1,5 +1,7 @@
 ﻿// Copyright (c) 2018 cloudcrate solutions UG (haftungsbeschraenkt)
-
+interface Window {
+    [key:string]: any;
+}
 const storageAssembly = 'Cloudcrate_AspNetCore_Blazor_Browser';
 const storageNamespace = `${storageAssembly}_Storage`;
 
@@ -13,7 +15,7 @@ for (var storageTypeName in storages) {
         const storage = storages[storageTypeName];
         const storageFullTypeName = `${storageNamespace}_${storageTypeName}`;
 
-        window[storageFullTypeName] = {
+        const store = window[storageFullTypeName] = {
             Clear: () => {
                 clear(storage);
             },
@@ -52,7 +54,43 @@ for (var storageTypeName in storages) {
 
             SetItemNumber: (index: number, data: string) => {
                 setItemNumber(storage, index, data);
-            }
+            },
+
+            /** @prop {any} [instance] reference to Blazor app */
+            instance: undefined as any | undefined,
+
+            /**
+             * Enables Storage event listener
+             * @param {any} instance
+             */
+            AddEventListener: (instance: any) => {
+                window.removeEventListener('storage', store.OnStorageChanged, false);
+                store.instance = instance;
+                window.addEventListener('storage', store.OnStorageChanged, false);
+            },
+
+            /**
+             * Removes Storage event listener
+             */
+            RemoveEventListener: () => {
+                window.removeEventListener('storage', store.OnStorageChanged, false);
+            },
+
+            /**
+             * Called when Storage event occurs
+             * @param {StorageEvent} event
+             */
+            OnStorageChanged: (event: StorageEvent) => {
+                if(store.instance) {
+                    store.instance.invokeMethodAsync(
+                        "OnStorageChanged",
+                        event.key,
+                        event.newValue,
+                        event.oldValue
+                    );
+                }
+
+            },
 
         };
     }
