@@ -13,7 +13,6 @@
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
 
     <PackageVersion>0.9.0-preview3</PackageVersion>
-    <!-- <Version>0.2.2</Version> -->
     <VersionPrefix>0.9.0</VersionPrefix>
     <VersionSuffix>preview3</VersionSuffix>
     <Authors>Florian Dohrendorf</Authors>
