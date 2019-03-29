@@ -20,6 +20,7 @@
     <Title>Blazor local and session storage support</Title>
     <Description>Blazor local and session storage support</Description>
     <PackageProjectUrl>https://github.com/cloudcrate/BlazorStorage</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
