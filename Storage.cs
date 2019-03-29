@@ -21,7 +21,7 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
         protected internal StorageBase(IJSRuntime jsRuntime)
         {
             _jsRuntime = jsRuntime;
-            _jsProcessRuntime = _jsRuntime as IJSInProcessRuntime;
+            _jsProcessRuntime = (IJSInProcessRuntime)_jsRuntime;
             _fullTypeName = GetType().FullName.Replace('.', '_');
         }
 
