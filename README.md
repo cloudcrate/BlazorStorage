@@ -46,5 +46,23 @@ var serviceProvider = new BrowserServiceProvider(services =>
         value = Storage["Value"];
     }
 }
+```
 
+Using `storage` native event: [StorageEvent](https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent)
+
+```csharp
+protected override void OnInit()
+{
+    Storage.StorageChanged += HandleStorageChanged;
+}
+
+void HandleStorageChanged(object sender, StorageEventArgs e)  
+{  
+    Console.WriteLine($"Value for key {e.Key} changed from {e.OldValue} to {e.NewValue}");
+} 
+
+public void Dispose()
+{
+    Storage.StorageChanged -= HandleStorageChanged;
+}
 ```
