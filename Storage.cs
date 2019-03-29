@@ -9,22 +9,24 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
     public abstract class StorageBase
     {
         private readonly IJSRuntime _jsRuntime;
+        private readonly IJSInProcessRuntime _jsProcessRuntime;
         private readonly string _fullTypeName;
 
         protected internal StorageBase(IJSRuntime jsRuntime)
         {
             _jsRuntime = jsRuntime;
+            _jsProcessRuntime = _jsRuntime as IJSInProcessRuntime;
             _fullTypeName = GetType().FullName.Replace('.', '_');
         }
 
         public void Clear()
         {
-            ((IJSInProcessRuntime)_jsRuntime).Invoke<object>($"{_fullTypeName}.Clear");
+            _jsProcessRuntime.Invoke<object>($"{_fullTypeName}.Clear");
         }
 
         public string GetItem(string key)
         {
-            return ((IJSInProcessRuntime)_jsRuntime).Invoke<string>($"{_fullTypeName}.GetItem", key);
+            return _jsProcessRuntime.Invoke<string>($"{_fullTypeName}.GetItem", key);
         }
 
         public T GetItem<T>(string key)
@@ -35,19 +37,19 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 
         public string Key(int index)
         {
-            return ((IJSInProcessRuntime)_jsRuntime).Invoke<string>($"{_fullTypeName}.Key", index);
+            return _jsProcessRuntime.Invoke<string>($"{_fullTypeName}.Key", index);
         }
 
-        public int Length => ((IJSInProcessRuntime)_jsRuntime).Invoke<int>($"{_fullTypeName}.Length");
+        public int Length => _jsProcessRuntime.Invoke<int>($"{_fullTypeName}.Length");
 
         public void RemoveItem(string key)
         {
-            ((IJSInProcessRuntime)_jsRuntime).Invoke<object>($"{_fullTypeName}.RemoveItem", key);
+            _jsProcessRuntime.Invoke<object>($"{_fullTypeName}.RemoveItem", key);
         }
 
         public void SetItem(string key, string data)
         {
-            ((IJSInProcessRuntime)_jsRuntime).Invoke<object>($"{_fullTypeName}.SetItem", key, data);
+            _jsProcessRuntime.Invoke<object>($"{_fullTypeName}.SetItem", key, data);
         }
 
         public void SetItem(string key, object data)
@@ -57,14 +59,14 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 
         public string this[string key]
         {
-            get => ((IJSInProcessRuntime)_jsRuntime).Invoke<string>($"{_fullTypeName}.GetItemString", key);
-            set => ((IJSInProcessRuntime)_jsRuntime).Invoke<object>($"{_fullTypeName}.SetItemString", key, value);
+            get => _jsProcessRuntime.Invoke<string>($"{_fullTypeName}.GetItemString", key);
+            set => _jsProcessRuntime.Invoke<object>($"{_fullTypeName}.SetItemString", key, value);
         }
 
         public string this[int index]
         {
-            get => ((IJSInProcessRuntime)_jsRuntime).Invoke<string>($"{_fullTypeName}.GetItemNumber", index);
-            set => ((IJSInProcessRuntime)_jsRuntime).Invoke<object>($"{_fullTypeName}.SetItemNumber", index, value);
+            get => _jsProcessRuntime.Invoke<string>($"{_fullTypeName}.GetItemNumber", index);
+            set => _jsProcessRuntime.Invoke<object>($"{_fullTypeName}.SetItemNumber", index, value);
         }
     }
 
