@@ -12,9 +12,9 @@
     <LangVersion>7.3</LangVersion>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
 
-    <PackageVersion>0.9.0-preview3-01</PackageVersion>
-    <VersionPrefix>0.9.0</VersionPrefix>
-    <VersionSuffix>preview3-01</VersionSuffix>
+    <PackageVersion>3.0.0-preview5-19227-01-01</PackageVersion>
+    <VersionPrefix>3.0.0</VersionPrefix>
+    <VersionSuffix>preview5-19227-01-01</VersionSuffix>
     <Authors>Florian Dohrendorf</Authors>
     <PackageTags>blazor;local;storage;localstorage;session;sessionstorage;browser</PackageTags>
     <Title>Blazor local and session storage support</Title>
@@ -39,8 +39,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="0.9.0-preview3-19154-02" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.9.0-preview3-19154-02" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview5-19227-01" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview5-19227-01" />
   </ItemGroup>
 
   <ItemGroup>
