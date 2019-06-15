@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2018 cloudcrate solutions UG (haftungsbeschraenkt)
 
 using System;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.JSInterop;
@@ -16,7 +17,6 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
         private EventHandler<StorageEventArgs> _storageChanged;
 
         protected abstract string StorageTypeName { get; }
-
 
         protected internal StorageBase(IJSRuntime jsRuntime)
         {
@@ -38,7 +38,7 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
         public T GetItem<T>(string key)
         {
             var json = GetItem(key);
-            return string.IsNullOrEmpty(json) ? default(T) : Json.Deserialize<T>(json);
+            return string.IsNullOrEmpty(json) ? default(T) : JsonSerializer.Parse<T>(json);
         }
 
         public string Key(int index)
@@ -60,7 +60,7 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 
         public void SetItem(string key, object data)
         {
-            SetItem(key, Json.Serialize(data));
+            SetItem(key, JsonSerializer.ToString(data));
         }
 
         public string this[string key]
@@ -81,9 +81,9 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
             {
                 if (_storageChanged == null)
                 {
-                    this._jsRuntime.InvokeAsync<object>(
+                    _jsRuntime.InvokeAsync<object>(
                         $"{_fullTypeName}.AddEventListener",
-                        new DotNetObjectRef(this)
+                        DotNetObjectRef.Create(this)
                     );
                 }
                 _storageChanged += value;
@@ -93,7 +93,7 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
                 _storageChanged -= value;
                 if (_storageChanged == null)
                 {
-                    this._jsRuntime.InvokeAsync<object>($"{_fullTypeName}.RemoveEventListener");
+                    _jsRuntime.InvokeAsync<object>($"{_fullTypeName}.RemoveEventListener");
                 }
             }
         }
@@ -102,15 +102,12 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
         public virtual void OnStorageChanged(string key, object oldValue, object newValue)
         {
             EventHandler<StorageEventArgs> handler = _storageChanged;
-            if (handler != null)
+            handler?.Invoke(this, new StorageEventArgs
             {
-                handler(this, new StorageEventArgs
-                {
-                    Key = key,
-                    OldValue = oldValue,
-                    NewValue = newValue,
-                });
-            }
+                Key = key,
+                OldValue = oldValue,
+                NewValue = newValue,
+            });
         }
     }
 
@@ -136,8 +133,8 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
     {
         public static void AddStorage(this IServiceCollection col)
         {
-            col.TryAddSingleton<LocalStorage>();
-            col.TryAddSingleton<SessionStorage>();
+            col.TryAddScoped<LocalStorage>();
+            col.TryAddScoped<SessionStorage>();
         }
     }
 }

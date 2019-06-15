@@ -16,10 +16,7 @@ Check out [Steve Sanderson's demo at NDC Minnesota, at minute 48](https://youtu.
 ### Add Services to Dependency Injection
 
 ```csharp
-var serviceProvider = new BrowserServiceProvider(services =>
-{
     services.AddStorage();
-});
 ```
 
 ### Inject and use Storage
@@ -28,12 +25,12 @@ var serviceProvider = new BrowserServiceProvider(services =>
 @using Cloudcrate.AspNetCore.Blazor.Browser.Storage;
 @inject LocalStorage Storage
 
-<input type="text" bind="@value" />
-<button onclick="@SetValue">Set</button>
-<button onclick="@GetValue">Get</button>
+<input type="text" @bind="value" />
+<button @onclick="@SetValue">Set</button>
+<button @onclick="@GetValue">Get</button>
 
 
-@functions
+@code
 {
     string value;
 
