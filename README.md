@@ -16,7 +16,7 @@ Check out [Steve Sanderson's demo at NDC Minnesota, at minute 48](https://youtu.
 ### Add Services to Dependency Injection
 
 ```csharp
-    services.AddStorage();
+services.AddStorage();
 ```
 
 ### Inject and use Storage
@@ -67,4 +67,4 @@ public void Dispose()
 
 ## Contributors
 
-* StorageEvent implementation by @peterblazejewicz
+* StorageEvent implementation by [@peterblazejewicz](https://github.com/peterblazejewicz)
