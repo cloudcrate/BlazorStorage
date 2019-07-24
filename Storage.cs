@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2018 cloudcrate solutions UG (haftungsbeschraenkt)
 
 using System;
-using System.Text.Json.Serialization;
+using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.JSInterop;
@@ -38,7 +38,7 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
         public T GetItem<T>(string key)
         {
             var json = GetItem(key);
-            return string.IsNullOrEmpty(json) ? default(T) : JsonSerializer.Parse<T>(json);
+            return string.IsNullOrEmpty(json) ? default(T) : JsonSerializer.Deserialize<T>(json);
         }
 
         public string Key(int index)
@@ -60,7 +60,7 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 
         public void SetItem(string key, object data)
         {
-            SetItem(key, JsonSerializer.ToString(data));
+            SetItem(key, JsonSerializer.Serialize(data));
         }
 
         public string this[string key]
