@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <PropertyGroup>
+   <!-- NuGet config-->
+    <id>BlazorStorage</id>
+    <authors>Florian Dohrendorf</authors>
+    <Title>Blazor local and session storage support</Title>
+    <Description>Blazor local and session storage support</Description>
+    <license>MIT</license>
+    <PackageVersion>3.0.0-preview7.19362.4.1</PackageVersion>
+    <PackageTags>blazor;local;storage;localstorage;session;sessionstorage;browser</PackageTags>
+    <PackageProjectUrl>https://github.com/cloudcrate/BlazorStorage</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/cloudcrate/BlazorStorage</RepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <IncludeSource>true</IncludeSource>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.6.0" />
+    <None Remove="wwwroot\Storage.ts" />
+  <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+</Project>

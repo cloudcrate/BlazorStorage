@@ -19,6 +19,15 @@ Check out [Steve Sanderson's demo at NDC Minnesota, at minute 48](https://youtu.
 services.AddStorage();
 ```
 
+### Add Javascript file to your server-side page
+
+at `_Host.cshtml` in `<body>`
+```
+    <app>@(await Html.RenderComponentAsync<App>())</app>
+    <script src="_framework/blazor.server.js"></script>
+    <script src="_content/Cloudcrate.AspNetCore.Blazor.Browser.Storage/Storage.js"></script>
+```
+
 ### Inject and use Storage
 
 ```razor
@@ -34,14 +43,14 @@ services.AddStorage();
 {
     string value;
 
-    void SetValue()
+    async void SetValue()
     {
-        Storage["Value"] = value;
+        await Storage.SetItemAsync("storageKey", value);
     }
 
-    void GetValue()
+    async void GetValue()
     {
-        value = Storage["Value"];
+        value = await Storage.GetItemAsync("storageKey");
     }
 }
 ```
@@ -68,3 +77,4 @@ public void Dispose()
 ## Contributors
 
 * StorageEvent implementation by [@peterblazejewicz](https://github.com/peterblazejewicz)
+* Added examples, server-side update by [@konradbartecki](https://github.com/konradbartecki/)
