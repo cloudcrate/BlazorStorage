@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2018 cloudcrate solutions UG (haftungsbeschraenkt)
-
-using System;
+﻿using System;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.JSInterop;
@@ -11,7 +11,6 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
     public abstract class StorageBase
     {
         private readonly IJSRuntime _jsRuntime;
-        private readonly IJSInProcessRuntime _jsProcessRuntime;
         private readonly string _fullTypeName;
 
         private EventHandler<StorageEventArgs> _storageChanged;
@@ -21,58 +20,45 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
         protected internal StorageBase(IJSRuntime jsRuntime)
         {
             _jsRuntime = jsRuntime;
-            _jsProcessRuntime = (IJSInProcessRuntime)_jsRuntime;
             _fullTypeName = GetType().FullName.Replace('.', '_');
         }
 
-        public void Clear()
+        public async Task ClearAsync()
         {
-            _jsProcessRuntime.Invoke<object>($"{_fullTypeName}.Clear");
+            await _jsRuntime.InvokeAsync<object>($"{_fullTypeName}.Clear");
         }
 
-        public string GetItem(string key)
+        public async Task<string> GetItemAsync(string key)
         {
-            return _jsProcessRuntime.Invoke<string>($"{_fullTypeName}.GetItem", key);
+            return await _jsRuntime.InvokeAsync<string>($"{_fullTypeName}.GetItem", key);
         }
 
-        public T GetItem<T>(string key)
+        public async Task<T> GetItemAsync<T>(string key)
         {
-            var json = GetItem(key);
+            var json = await GetItemAsync(key);
             return string.IsNullOrEmpty(json) ? default(T) : JsonSerializer.Deserialize<T>(json);
         }
 
-        public string Key(int index)
+        public async Task<string> KeyAsync(int index)
         {
-            return _jsProcessRuntime.Invoke<string>($"{_fullTypeName}.Key", index);
+            return await _jsRuntime.InvokeAsync<string>($"{_fullTypeName}.Key", index);
         }
 
-        public int Length => _jsProcessRuntime.Invoke<int>($"{_fullTypeName}.Length");
+        public Task<int> LengthAsync => _jsRuntime.InvokeAsync<int>($"{_fullTypeName}.Length");
 
-        public void RemoveItem(string key)
+        public async Task RemoveItemAsync(string key)
         {
-            _jsProcessRuntime.Invoke<object>($"{_fullTypeName}.RemoveItem", key);
+            await _jsRuntime.InvokeAsync<object>($"{_fullTypeName}.RemoveItem", key);
         }
 
-        public void SetItem(string key, string data)
+        public async Task SetItemAsync(string key, string data)
         {
-            _jsProcessRuntime.Invoke<object>($"{_fullTypeName}.SetItem", key, data);
+            await _jsRuntime.InvokeAsync<object>($"{_fullTypeName}.SetItem", key, data);
         }
 
-        public void SetItem(string key, object data)
+        public async Task SetItemAsync(string key, object data)
         {
-            SetItem(key, JsonSerializer.Serialize(data));
-        }
-
-        public string this[string key]
-        {
-            get => _jsProcessRuntime.Invoke<string>($"{_fullTypeName}.GetItemString", key);
-            set => _jsProcessRuntime.Invoke<object>($"{_fullTypeName}.SetItemString", key, value);
-        }
-
-        public string this[int index]
-        {
-            get => _jsProcessRuntime.Invoke<string>($"{_fullTypeName}.GetItemNumber", index);
-            set => _jsProcessRuntime.Invoke<object>($"{_fullTypeName}.SetItemNumber", index, value);
+            await SetItemAsync(key, JsonSerializer.Serialize(data));
         }
 
         public event EventHandler<StorageEventArgs> StorageChanged
