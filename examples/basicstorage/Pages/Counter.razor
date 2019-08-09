@@ -1,0 +1,68 @@
+﻿@page "/counter"
+@using Cloudcrate.AspNetCore.Blazor.Browser.Storage;
+@inject LocalStorage _localStorage;
+@inject IComponentContext ComponentContext
+
+<h1>Counter</h1>
+
+<fieldset>
+    @if (currentCount.HasValue)
+    {
+    <p>Current count: <strong>@currentCount</strong></p>
+    <button class="btn btn-primary" @onclick="@IncrementCount">Increment</button>
+    }
+    else
+    {
+    <p>Loading...</p>
+    }
+</fieldset>
+
+@code {
+    int? currentCount = null;
+
+    async void IncrementCount()
+    {
+        currentCount++;
+        await _localStorage.SetItemAsync("x-my-session-key", currentCount.Value.ToString());
+    }
+
+    bool isWaitingForConnection;
+
+    protected override async Task OnInitAsync()
+    {
+        if (ComponentContext.IsConnected)
+        {
+            // Looks like we're not prerendering, so we can immediately load
+            // the data from browser storage
+            currentCount = await LoadCount();
+        }
+        else
+        {
+            // We are prerendering, so have to defer the load operation until later
+            isWaitingForConnection = true;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync()
+    {
+        // By this stage we know the client has connected back to the server, and
+        // browser services are available. So if we didn't load the data earlier,
+        // we should do so now, then trigger a new render.
+        if (isWaitingForConnection)
+        {
+            isWaitingForConnection = false;
+            //load session data now
+            currentCount = await LoadCount();
+            StateHasChanged();
+        }
+    }
+
+    private async Task<int> LoadCount()
+        {
+            if(int.TryParse(await _localStorage.GetItemAsync("x-my-session-key"), out int result))
+            {
+                return result;
+            }
+            return 0;
+        }
+}

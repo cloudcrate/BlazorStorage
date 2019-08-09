@@ -36,12 +36,12 @@ Inject and use Storage
 {
     string value;
 
-    void SetValue()
+    async void SetValue()
     {
         Storage.SetItem("storageKey", value);
     }
 
-    void GetValue()
+    async void GetValue()
     {
         value = Storage.GetItem("storageKey");
     }

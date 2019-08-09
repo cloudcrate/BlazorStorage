@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29111.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cloudcrate.AspNetCore.Blazor.Browser.Storage", "Cloudcrate.AspNetCore.Blazor.Browser.Storage.csproj", "{F3311DD8-353D-48EF-BFAE-49D42359BADA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "basicstorage", "..\examples\basicstorage\basicstorage.csproj", "{6DB7524F-1BFD-4962-B5BE-DE72510B04FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{65647873-A7E5-49FE-9AE9-6388A6C88CEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{F3311DD8-353D-48EF-BFAE-49D42359BADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3311DD8-353D-48EF-BFAE-49D42359BADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3311DD8-353D-48EF-BFAE-49D42359BADA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DB7524F-1BFD-4962-B5BE-DE72510B04FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DB7524F-1BFD-4962-B5BE-DE72510B04FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DB7524F-1BFD-4962-B5BE-DE72510B04FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DB7524F-1BFD-4962-B5BE-DE72510B04FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6DB7524F-1BFD-4962-B5BE-DE72510B04FB} = {65647873-A7E5-49FE-9AE9-6388A6C88CEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {999793CC-01D6-4F01-A268-E7F86D067C48}
