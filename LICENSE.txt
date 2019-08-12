@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019 cloudcrate solutions UG (haftungsbeschraenkt) and Contributors.
+Copyright (c) cloudcrate solutions UG (haftungsbeschraenkt) and Contributors
 
 All rights reserved.
 
