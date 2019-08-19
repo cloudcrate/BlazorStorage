@@ -116,7 +116,6 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
             get => JsRuntimeInvoke<string>($"{_fullTypeName}.GetItemNumber", index);
             set => JsRuntimeInvoke<object>($"{_fullTypeName}.SetItemNumber", index, value);
         }
-
         public event EventHandler<StorageEventArgs> StorageChanged
         {
             add
@@ -137,6 +136,18 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
                 {
                     JsRuntimeInvokeAsync<object>($"{_fullTypeName}.RemoveEventListener");
                 }
+            }
+        }
+
+        private async Task<TValue> InvokeOnJs<TValue>(string identifier, params object[] args)
+        {
+            if(IsServerSideBlazor)
+            {
+                return await _jsRuntime.InvokeAsync<TValue>(identifier, args);
+            }
+            else
+            {
+                return _jsProcessRuntime.Invoke<TValue>(identifier, args);
             }
         }
 
