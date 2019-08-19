@@ -11,6 +11,8 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
     public abstract class StorageBase
     {
         private readonly IJSRuntime _jsRuntime;
+        private readonly IJSInProcessRuntime _jsProcessRuntime;
+        private bool IsServerSideBlazor = false;
         private readonly string _fullTypeName;
 
         private EventHandler<StorageEventArgs> _storageChanged;
@@ -19,18 +21,26 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 
         protected internal StorageBase(IJSRuntime jsRuntime)
         {
-            _jsRuntime = jsRuntime;
+            if(jsRuntime is IJSInProcessRuntime)
+            {
+                _jsProcessRuntime = (IJSInProcessRuntime) jsRuntime;
+            }
+            else
+            {
+                IsServerSideBlazor = true;
+                _jsRuntime = jsRuntime;
+            }
             _fullTypeName = GetType().FullName.Replace('.', '_');
         }
 
         public async Task ClearAsync()
         {
-            await _jsRuntime.InvokeAsync<object>($"{_fullTypeName}.Clear");
+            await InvokeOnJs<object>($"{_fullTypeName}.Clear");
         }
 
         public async Task<string> GetItemAsync(string key)
         {
-            return await _jsRuntime.InvokeAsync<string>($"{_fullTypeName}.GetItem", key);
+            return await InvokeOnJs<string>($"{_fullTypeName}.GetItem", key);
         }
 
         public async Task<T> GetItemAsync<T>(string key)
@@ -39,28 +49,20 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
             return string.IsNullOrEmpty(json) ? default(T) : JsonSerializer.Deserialize<T>(json);
         }
 
-        public async Task<string> KeyAsync(int index)
-        {
-            return await _jsRuntime.InvokeAsync<string>($"{_fullTypeName}.Key", index);
-        }
-
-        public Task<int> LengthAsync => _jsRuntime.InvokeAsync<int>($"{_fullTypeName}.Length");
-
         public async Task RemoveItemAsync(string key)
         {
-            await _jsRuntime.InvokeAsync<object>($"{_fullTypeName}.RemoveItem", key);
+            await InvokeOnJs<object>($"{_fullTypeName}.RemoveItem", key);
         }
 
         public async Task SetItemAsync(string key, string data)
         {
-            await _jsRuntime.InvokeAsync<object>($"{_fullTypeName}.SetItem", key, data);
+            await InvokeOnJs<object>($"{_fullTypeName}.SetItem", key, data);
         }
 
         public async Task SetItemAsync(string key, object data)
         {
             await SetItemAsync(key, JsonSerializer.Serialize(data));
         }
-
         public event EventHandler<StorageEventArgs> StorageChanged
         {
             add
@@ -81,6 +83,18 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
                 {
                     _jsRuntime.InvokeAsync<object>($"{_fullTypeName}.RemoveEventListener");
                 }
+            }
+        }
+
+        private async Task<TValue> InvokeOnJs<TValue>(string identifier, params object[] args)
+        {
+            if(IsServerSideBlazor)
+            {
+                return await _jsRuntime.InvokeAsync<TValue>(identifier, args);
+            }
+            else
+            {
+                return _jsProcessRuntime.Invoke<TValue>(identifier, args);
             }
         }
 
