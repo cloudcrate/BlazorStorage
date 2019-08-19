@@ -131,10 +131,11 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 
     public static class ServiceCollectionExtensions
     {
-        public static void AddStorage(this IServiceCollection col)
+        public static IServiceCollection AddStorage(this IServiceCollection col)
         {
             col.TryAddScoped<LocalStorage>();
             col.TryAddScoped<SessionStorage>();
+            return col;
         }
     }
 }
