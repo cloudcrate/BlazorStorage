@@ -195,7 +195,7 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 
             public ValueTask<T> InvokeAsync<T>(string identifier, IEnumerable<object> args, CancellationToken cancellationToken = default)
             {
-                return JsRuntime.InvokeAsync<T>(identifier, args, cancellationToken);
+                return JsRuntime.InvokeAsync<T>(identifier, cancellationToken, args.ToArray());
             }
         }
 
