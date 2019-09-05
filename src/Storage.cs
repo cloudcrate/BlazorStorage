@@ -34,9 +34,9 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
             JsRuntimeInvoke<object>($"{_fullTypeName}.Clear");
         }
 
-        public Task ClearAsync(CancellationToken cancellationToken = default)
+        public async ValueTask ClearAsync(CancellationToken cancellationToken = default)
         {
-            return JsRuntimeInvokeAsync<object>($"{_fullTypeName}.Clear", Enumerable.Empty<object>(), cancellationToken);
+            await JsRuntimeInvokeAsync<object>($"{_fullTypeName}.Clear", Enumerable.Empty<object>(), cancellationToken);
         }
 
         public string GetItem(string key)
@@ -44,7 +44,7 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
             return JsRuntimeInvoke<string>($"{_fullTypeName}.GetItem", key);
         }
 
-        public Task<string> GetItemAsync(string key, CancellationToken cancellationToken = default)
+        public ValueTask<string> GetItemAsync(string key, CancellationToken cancellationToken = default)
         {
             return JsRuntimeInvokeAsync<string>($"{_fullTypeName}.GetItem", new object[] { key }, cancellationToken);
         }
@@ -52,13 +52,13 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
         public T GetItem<T>(string key)
         {
             var json = GetItem(key);
-            return string.IsNullOrEmpty(json) ? default(T) : JsonSerializer.Deserialize<T>(json);
+            return string.IsNullOrEmpty(json) ? default : JsonSerializer.Deserialize<T>(json);
         }
 
         public async Task<T> GetItemAsync<T>(string key, CancellationToken cancellationToken = default)
         {
             var json = await GetItemAsync(key, cancellationToken);
-            return string.IsNullOrEmpty(json) ? default(T) : JsonSerializer.Deserialize<T>(json);
+            return string.IsNullOrEmpty(json) ? default : JsonSerializer.Deserialize<T>(json);
         }
 
         public string Key(int index)
@@ -66,23 +66,23 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
             return JsRuntimeInvoke<string>($"{_fullTypeName}.Key", index);
         }
 
-        public Task<string> KeyAsync(int index, CancellationToken cancellationToken = default)
+        public ValueTask<string> KeyAsync(int index, CancellationToken cancellationToken = default)
         {
             return JsRuntimeInvokeAsync<string>($"{_fullTypeName}.Key", new object[] { index }, cancellationToken);
         }
 
         public int Length => JsRuntimeInvoke<int>($"{_fullTypeName}.Length");
 
-        public Task<int> LengthAsync(CancellationToken cancellationToken = default) => JsRuntimeInvokeAsync<int>($"{_fullTypeName}.Length", Enumerable.Empty<object>(), cancellationToken);
+        public ValueTask<int> LengthAsync(CancellationToken cancellationToken = default) => JsRuntimeInvokeAsync<int>($"{_fullTypeName}.Length", Enumerable.Empty<object>(), cancellationToken);
 
         public void RemoveItem(string key)
         {
             JsRuntimeInvoke<object>($"{_fullTypeName}.RemoveItem", key);
         }
 
-        public Task RemoveItemAsync(string key, CancellationToken cancellationToken = default)
+        public async ValueTask RemoveItemAsync(string key, CancellationToken cancellationToken = default)
         {
-            return JsRuntimeInvokeAsync<object>($"{_fullTypeName}.RemoveItem", new object[] { key }, cancellationToken);
+            await JsRuntimeInvokeAsync<object>($"{_fullTypeName}.RemoveItem", new object[] { key }, cancellationToken);
         }
 
         public void SetItem(string key, string data)
@@ -90,9 +90,9 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
             JsRuntimeInvoke<object>($"{_fullTypeName}.SetItem", key, data);
         }
 
-        public Task SetItemAsync(string key, string data, CancellationToken cancellationToken = default)
+        public async ValueTask SetItemAsync(string key, string data, CancellationToken cancellationToken = default)
         {
-            return JsRuntimeInvokeAsync<object>($"{_fullTypeName}.SetItem", new object[] { key, data }, cancellationToken);
+            await JsRuntimeInvokeAsync<object>($"{_fullTypeName}.SetItem", new object[] { key, data }, cancellationToken);
         }
 
         public void SetItem(string key, object data)
@@ -100,7 +100,7 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
             SetItem(key, JsonSerializer.Serialize(data));
         }
 
-        public Task SetItemAsync(string key, object data, CancellationToken cancellationToken = default)
+        public ValueTask SetItemAsync(string key, object data, CancellationToken cancellationToken = default)
         {
             return SetItemAsync(key, JsonSerializer.Serialize(data), cancellationToken);
         }
@@ -125,7 +125,7 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
                 {
                     JsRuntimeInvokeAsync<object>(
                         $"{_fullTypeName}.AddEventListener",
-                        DotNetObjectRef.Create(this)
+                        DotNetObjectReference.Create(this)
                     );
                 }
                 _storageChanged += value;
@@ -157,12 +157,12 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
             return _jsRuntime.Invoke<T>(identifier, args);
         }
 
-        private Task<T> JsRuntimeInvokeAsync<T>(string identifier, params object[] args)
+        private ValueTask<T> JsRuntimeInvokeAsync<T>(string identifier, params object[] args)
         {
             return _jsRuntime.InvokeAsync<T>(identifier, args);
         }
 
-        private Task<T> JsRuntimeInvokeAsync<T>(string identifier, IEnumerable<object> args, CancellationToken cancellationToken = default)
+        private ValueTask<T> JsRuntimeInvokeAsync<T>(string identifier, IEnumerable<object> args, CancellationToken cancellationToken = default)
         {
             return _jsRuntime.InvokeAsync<T>(identifier, args, cancellationToken);
         }
@@ -171,9 +171,9 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
         {
             T Invoke<T>(string identifier, params object[] args);
 
-            Task<T> InvokeAsync<T>(string identifier, params object[] args);
+            ValueTask<T> InvokeAsync<T>(string identifier, params object[] args);
 
-            Task<T> InvokeAsync<T>(string identifier, IEnumerable<object> args,
+            ValueTask<T> InvokeAsync<T>(string identifier, IEnumerable<object> args,
                 CancellationToken cancellationToken = default);
         }
 
@@ -188,12 +188,12 @@ namespace Cloudcrate.AspNetCore.Blazor.Browser.Storage
 
             public abstract T Invoke<T>(string identifier, params object[] args);
 
-            public Task<T> InvokeAsync<T>(string identifier, params object[] args)
+            public ValueTask<T> InvokeAsync<T>(string identifier, params object[] args)
             {
                 return JsRuntime.InvokeAsync<T>(identifier, args);
             }
 
-            public Task<T> InvokeAsync<T>(string identifier, IEnumerable<object> args, CancellationToken cancellationToken = default)
+            public ValueTask<T> InvokeAsync<T>(string identifier, IEnumerable<object> args, CancellationToken cancellationToken = default)
             {
                 return JsRuntime.InvokeAsync<T>(identifier, args, cancellationToken);
             }

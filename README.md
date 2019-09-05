@@ -19,6 +19,14 @@ Add Services to Dependency Injection
 services.AddStorage();
 ```
 
+Add Javascript file to your `index.html` or `_Host.cshtml` page in `<body>`
+
+```html
+<app>@(await Html.RenderComponentAsync<App>())</app>
+<script src="_framework/blazor.server.js"></script>
+<script src="_content/Cloudcrate.AspNetCore.Blazor.Browser.Storage/Storage.js"></script>
+```
+
 ## Client-Side
 
 Inject and use Storage
@@ -49,15 +57,6 @@ Inject and use Storage
 ```
 
 ## Server-Side
-
-Add Javascript file to your server-side page
-
-at `_Host.cshtml` in `<body>`
-```
-<app>@(await Html.RenderComponentAsync<App>())</app>
-<script src="_framework/blazor.server.js"></script>
-<script src="_content/Cloudcrate.AspNetCore.Blazor.Browser.Storage/Storage.js"></script>
-```
 
 Inject and use Storage
 
