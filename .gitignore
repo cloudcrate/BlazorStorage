@@ -351,7 +351,3 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-
-## Project specific
-src/wwwroot/Storage.js
-src/wwwroot/Storage.js.map
