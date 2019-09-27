@@ -73,12 +73,12 @@ Inject and use Storage
 {
     string value;
 
-    Task SetValue()
+    async Task SetValue()
     {
         await Storage.SetItemAsync("storageKey", value);
     }
 
-    Task GetValue()
+    async Task GetValue()
     {
         value = await Storage.GetItemAsync("storageKey");
     }
