@@ -21,9 +21,7 @@ services.AddStorage();
 
 Add Javascript file to your `index.html` or `_Host.cshtml` page in `<body>`
 
-```html
-<app>@(await Html.RenderComponentAsync<App>())</app>
-<script src="_framework/blazor.server.js"></script>
+```html   
 <script src="_content/Cloudcrate.AspNetCore.Blazor.Browser.Storage/Storage.js"></script>
 ```
 
