@@ -19,7 +19,7 @@ Add Services to Dependency Injection
 services.AddStorage();
 ```
 
-Add Javascript file to your `index.html` or `_Host.cshtml` page in `<body>`
+Add Javascript file to your `index.html` or `_Host.cshtml` page in `<body>` after either `<script src="_framework/blazor.webassembly.js"></script>` or `<script src="_framework/blazor.server.js"></script>` depending on what architecture you are using.
 
 ```html   
 <script src="_content/Cloudcrate.AspNetCore.Blazor.Browser.Storage/Storage.js"></script>
