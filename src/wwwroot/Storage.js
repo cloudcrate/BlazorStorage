@@ -64,7 +64,7 @@ var _loop_1 = function () {
              */
             OnStorageChanged: function (event) {
                 if (store_1.instance) {
-                    store_1.instance.invokeMethodAsync("OnStorageChanged", event.key, event.newValue, event.oldValue);
+                    store_1.instance.invokeMethodAsync("OnStorageChanged", event.key, event.oldValue, event.newValue);
                 }
             },
         };
